@@ -18,8 +18,11 @@ const retardGraph = function (el){
             color : color,
             list : list,
             stat : {
+               last:0,
+               first:0,
                avarge:0,
                direction:0,
+               difference:0,
                lowest:0,
                highest:0,
                count:0,
@@ -36,7 +39,7 @@ const retardGraph = function (el){
     this.getStat = function(name){
         if(typeof lists[name] === "undefined")
             return false;
-        return list[name].stat;
+        return lists[name].stat;
 
     }
     /*
@@ -51,7 +54,6 @@ const retardGraph = function (el){
             
         )
             return false;
-        console.log(lists);
         canv = el;
         ctx = canv.getContext("2d");
         w = canv.width;
@@ -98,25 +100,43 @@ const retardGraph = function (el){
         length = (w-24)/(lists[listI].list.length-1);
         let count = 0;
         let avarge = 0;
+        let direction = 0;
         let highest = -32768;
         let lowest = 32767;
         let mass = 0;
+        let first = NaN;
+        let last = 0;
+        let difference =0;
         for (globalI = 0; lists[listI].list.length > globalI ; globalI++){
-            if(isNaN(lists[listI].list[globalI]))
+            let current = lists[listI].list[globalI];
+            if(isNaN(current))
                 continue;
             count++;
-            mass += lists[listI].list[globalI];
-            if (highest < lists[listI].list[globalI])
-                highest = lists[listI].list[globalI];
-            if(lowest > lists[listI].list[globalI])
-                lowest = lists[listI].list[globalI];
+            if (isNaN(first))
+                first = parseInt(current);
+            last = parseInt(current);
+            mass += current;
+            if (highest < current)
+                highest = current;
+            if(lowest > current)
+                lowest = current;
         }
         avarge = mass/count;
         if (highest+2 > max)
             max = highest + 2;
         if (lowest-2 < min)
             min = lowest - 2;
+        if(first > last){
+            direction = 1;
+        }else if(last > first){
+            direction = -1;
+        }
+        difference = first - last;
         lists[listI].stat = {
+            last,
+            first,
+            direction,
+            difference,
             highest,
             lowest,
             count,
