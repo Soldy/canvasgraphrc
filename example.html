@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body{
+                background:#000;
+                width:100%;
+                height:100%;
+                border:0;
+                margin:0;
+                left:0;
+                top:0;
+                position:absolute;
+            }
+            canvas{
+                width:800px;
+                height:300px;
+            }
+        </style>
+        <script src="graph.js"></script>
+    </head>
+    <body>
+        <canvas id="can" width="800" height="300">
+        </canvas>
+        <script>
+             let c  = new retardGraph(document.getElementById("can"));
+             let lista = [],
+                 listb = [],
+                 listc = []; 
+             for(let i = 0 ; 52 > i ; i++){
+                 lista.push(Math.floor((Math.random() * 76) + 34));
+                 listb.push(Math.floor((Math.random() * 76) + 34));
+                 listc.push(Math.floor((Math.random() * 76) + 34));
+             }
+             c.add(lista, 'testA', '#ff0000');
+             c.add(listb, 'testB', '#0000ff');
+             c.add(listc, 'testC', '#00ff00');
+             c.input(document.getElementById('can'));
+        </script>
+    </body>
+</html>
+
+
+
+
