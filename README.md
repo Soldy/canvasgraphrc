@@ -1,0 +1,2 @@
+# canvasgraphrc
+simple javascript graph
