@@ -18,6 +18,8 @@ const retardGraph = function (el){
             color : color,
             list : list,
             stat : {
+               color : color,
+               name:name,
                last:0,
                first:0,
                avarge:0,
@@ -107,6 +109,9 @@ const retardGraph = function (el){
         let first = NaN;
         let last = 0;
         let difference =0;
+        let percante =0;
+        let name = listI.toString();
+        let color = lists[listI].color.toString();
         for (globalI = 0; lists[listI].list.length > globalI ; globalI++){
             let current = lists[listI].list[globalI];
             if(isNaN(current))
@@ -132,11 +137,15 @@ const retardGraph = function (el){
             direction = -1;
         }
         difference = first - last;
+        percante = Math.abs(difference/first).toFixed(4);
         lists[listI].stat = {
+            color,
+            name,
             last,
             first,
             direction,
             difference,
+            percante,
             highest,
             lowest,
             count,
