@@ -45,31 +45,29 @@ const retardGraph = function (el){
 
     }
     /*
+     * @param {object}
+     * @private
+     * @return {boolean}
+     */
+     this.set = function(conf){
+        return set(conf);
+    }
+
+    /*
      * @param HTMLobject {el}
      * @public
      * @return boolean
      */
     this.input = function (el){
-        if(
-            (typeof el === "undefined")&&
-            (el === canv)
-            
-        )
-            return false;
-        canv = el;
-        ctx = canv.getContext("2d");
-        w = canv.width;
-        h = canv.height;
-        init();
-        render();
-        return true;
+        return input(el);
+    }
+
+    let config = {
+        'type' : 'line',
+        'dot'  : false
     }
     /*
-     * @var object
-     */
-    let t = this;
-    /*
-     * @var object 
+     * @var {object}
      */
     let canv,ctx;
     /*
@@ -82,7 +80,7 @@ const retardGraph = function (el){
         lists={};
     /* 
      * @private 
-     * @return void
+     * @return {void}
      */
     let init = function(){ // init
         ctx.clearRect(0, 0, w, h);
@@ -93,6 +91,39 @@ const retardGraph = function (el){
         ctx.lineTo(10, h-10);
         ctx.lineTo(w-10, h-10);
         ctx.stroke();
+    }
+    /*
+     * @param {object}
+     * @private
+     * @return boolean
+     */
+    let set = function(conf){
+        if(typeof conf.type !== 'undefined')
+            if(['line'].indexOf(conf.type) > -1)
+                config.type = conf.type;
+        if(typeof conf.dot !== 'undefined')
+            if([false, true].indexOf(conf.dot) > -1)
+                config.dot = conf.dot;
+        return true;
+    }
+    /*
+     * @param {HTMLobject} el
+     * @private
+     * @return {boolean}
+     */
+    let input = function (el){
+        if(
+            (typeof el === "undefined")&&
+            (el === canv)
+        )
+            return false;
+        canv = el;
+        ctx = canv.getContext("2d");
+        w = canv.width;
+        h = canv.height;
+        init();
+        render();
+        return true;
     }
     /* 
      * @private 
@@ -169,7 +200,7 @@ const retardGraph = function (el){
     }
     /* 
      * @private 
-     * @return void
+     * @return boolean
      */
     let line = function(){
         ctx.moveTo(12,10);
@@ -178,6 +209,25 @@ const retardGraph = function (el){
         for (globalI = 0 ; lists[listI].list.length > globalI; globalI++)
             to();
         ctx.stroke();
+        if (config.dot === false)
+            return true;
+        ctx.beginPath();
+        ctx.strokeStyle = lists[listI].color;
+        ctx.fillStyle   = lists[listI].color;
+        for (globalI = 0 ; lists[listI].list.length > globalI; globalI++)
+            dot();
+        ctx.stroke();
+        return true;
+    }
+    /* 
+     * @private 
+     * @return void
+     */
+    let dot = function(){
+        ctx.moveTo((length*globalI)+12, positionMath());
+        ctx.arc((length*globalI)+12, positionMath(),2,0,Math.PI*2);
+        ctx.closePath();
+        ctx.fill();
     }
     /*
      * @private
@@ -194,6 +244,6 @@ const retardGraph = function (el){
         return ((max-(lists[listI].list[globalI]))*((h-40)/(max-min)))+20;
     }
     if(typeof el !== "undefined")
-        t.input(el);
+        input(el);
 }
 
