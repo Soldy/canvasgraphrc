@@ -64,7 +64,7 @@ const retardGraph = function (el){
 
     let config = {
         'type' : 'line',
-        'dot'  : false
+        'dot'  : true
     }
     /*
      * @var {object}
