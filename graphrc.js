@@ -1,9 +1,9 @@
 
 const retardGraph = function (el){
     /*
-     * @param array {list}
-     * @param string {name}
-     * @param string {color}
+     * @param {array} list
+     * @param {string} name
+     * @param {string} color
      * @public
      * @retrun boolean
      */
@@ -34,7 +34,7 @@ const retardGraph = function (el){
         return true;
     }
     /*
-     * @param string {name}
+     * @param {string} name
      * @public
      * @retrun boolean || object
      */
